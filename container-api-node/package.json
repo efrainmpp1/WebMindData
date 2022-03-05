@@ -4,5 +4,15 @@
   "description": "Api-Rest para dar os dados tratados ao front",
   "main": "./src/server.js",
   "author": "Efrain Marcelo Pulgar Pantaleon",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
