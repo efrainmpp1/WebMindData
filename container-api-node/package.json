@@ -1,0 +1,8 @@
+{
+  "name": "Api-Node",
+  "version": "1.0.0",
+  "description": "Api-Rest para dar os dados tratados ao front",
+  "main": "./src/server.js",
+  "author": "Efrain Marcelo Pulgar Pantaleon",
+  "license": "MIT"
+}
