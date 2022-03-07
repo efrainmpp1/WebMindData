@@ -38,7 +38,7 @@ const Paciente = db.define('pacientes' , {
     type: Sequelize.STRING
   },
   data_nascimento:{
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     allowNull: false
   },
   ansiedade:{
