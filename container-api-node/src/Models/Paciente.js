@@ -45,7 +45,7 @@ const Paciente = db.define('pacientes' , {
     type: Sequelize.BOOLEAN,
     allowNull:false
   },
-  depresssao:{
+  depressao:{
     type: Sequelize.BOOLEAN,
     allowNull:false
   },
