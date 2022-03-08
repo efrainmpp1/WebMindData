@@ -6,11 +6,9 @@ class PacienteController {
   
   async readOne(req,res){
     const idPaciente = req.params.id
-    const paciente = Paciente.findOne({where : {id : idPaciente }})
+    const paciente = await Paciente.findOne({where : {id : idPaciente }})
     //Retorna um statuscode para caso o paciente nao exista
-    return paciente ? res.status(200).json(paciente) : res.status(204).json({
-      status : "Não foi possivel encontrar esse paciente"
-    })
+    return paciente ? res.status(200).json(paciente) : res.status(204).send()
   }
 
   async cadastrar(req,res){
