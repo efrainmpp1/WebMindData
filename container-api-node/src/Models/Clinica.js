@@ -2,12 +2,15 @@ const Sequelize = require("sequelize")
 
 const db = require("../database/index")
 
-const Clinica = db.define('clinica' , {
+const Clinica = db.define('clinicas' , {
   id:{
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
+    type: Sequelize.STRING,
+    primaryKey: true,
     allowNull: false
-  }
+  },
+  // Timestamps
+  createdAt: Sequelize.DATE,
+  updatedAt: Sequelize.DATE,
 })
 
 

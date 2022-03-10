@@ -21,8 +21,13 @@ const Questionario = db.define('questionarios' , {
   }
 })
 
+//Realacionamento entre tabela Pacientes e Questionarios
 Questionario.belongsTo(Paciente , {
-  constraint: true,
+  foreignKey: 'id_paciente',
+  constraint: true
+})
+
+Paciente.hasMany(Questionario , {
   foreignKey: 'id_paciente'
 })
 
