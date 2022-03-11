@@ -30,7 +30,8 @@ class PacienteController {
     const id = v4(); 
     const hashPassword = await hash(password,8);
 
-    // A tentativa de criar um paciente passará por verificações futuramente em PacientesServices 
+    // A tentativa de criar um paciente passará por verificações futuramente em PacientesServices
+    // Melhorar futuramente o tratamento de erros
     await Paciente.create({
       id,
       name,
@@ -46,10 +47,10 @@ class PacienteController {
       familiar_depressao,
     })
     .then(()=> {
-      return res.json({
+      return res.status(201).json({
         erro: false,
         mensagem : "Usuario cadastrado com sucesso"
-      });
+      })
     }).catch(() => {
       return res.status(400).json({
         erro : true,
@@ -57,6 +58,44 @@ class PacienteController {
       })
     })
   }
+
+  //Falta colocar uma confirmação da senha para realizar o update e delete com segurança
+  async update(req, res) {
+    const idPaciente  = req.params.id
+    await Paciente.update(req.body, {where: {id: idPaciente}})
+    .then(()=> {
+      return res.status(201).json({
+        erro: false,
+        mensagem: "Usuário atualizado com sucesso"
+      })
+    }).catch(()=>{
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Não foi possivel atualizar o usuario"
+      })
+    })
+  }
+
+  async delete(req , res) {
+    const idPaciente = req.params.id
+    await Paciente.destroy({
+        where: {
+            id: idPaciente
+        }
+    })
+    .then(()=> {
+      return res.status(200).json({
+        erro: false,
+        mensagem: "Usuário deletado com sucesso"
+      })
+    }).catch(()=>{
+      return res.status(201).json({
+        erro: true,
+        mensagem: "Não foi possivel atualizar o usuario"
+      })
+    })
+  }
+
 
 }
 
