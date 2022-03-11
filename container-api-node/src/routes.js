@@ -18,5 +18,7 @@ routes.delete('/paciente/:id' , PacienteController.delete)
 //Rotas para CRUD do Profissional
 routes.get('/profissional/:id' , ProfissionalController.readOne)
 routes.post('/profissional' , ProfissionalController.cadastrar)
+routes.put('/profissional/:id' , ProfissionalController.update)
+routes.delete('/profissional/:id' , ProfissionalController.delete)
 
 module.exports = routes
