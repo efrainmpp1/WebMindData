@@ -46,7 +46,10 @@ module.exports = {
       formacao_profissional:{
         type: Sequelize.STRING,
         allowNull: false,
-      } 
+      }, 
+      // Timestamps
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
     });
      
   },
