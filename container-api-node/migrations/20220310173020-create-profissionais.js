@@ -37,10 +37,9 @@ module.exports = {
       },
       cep_clinica:{
         type:Sequelize.STRING,
-        allowNull: false,
       },
       data_nascimento:{
-        type:Sequelize.DATE,
+        type:Sequelize.DATEONLY,
         allowNull: false,
       },
       formacao_profissional:{

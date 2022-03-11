@@ -6,6 +6,7 @@ module.exports = {
     await queryInterface.createTable('clinicas', { 
       id:{
         type: Sequelize.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
         allowNull: false
       },
@@ -14,14 +15,16 @@ module.exports = {
         references:{ // Profissional has many Pacientes n:n
           model: 'profissionais', 
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       id_paciente:{
         type: Sequelize.STRING,
         references:{ // Paciente has many Profissionais n:n
           model: 'pacientes',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       // Timestamps
       createdAt: Sequelize.DATE,
