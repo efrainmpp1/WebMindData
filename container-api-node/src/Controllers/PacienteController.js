@@ -8,15 +8,12 @@ class PacienteController {
   
   async readOne(req,res){
     const idPaciente = req.params.id
-    const paciente = await Paciente.findOne({
-      where : {id : idPaciente },
-      include : [
-        {
-          model: Profissional,
-          as : 'profissionais',
-          through : {attributes : []}
-        }
-      ]
+    const paciente = await Paciente.findByPk(idPaciente , {
+      include: [{
+        model: Profissional,
+        as: 'profissionais',
+        through: {attributes: []}
+      }]
     })
     //Retorna um statuscode para caso o paciente nao exista
     return paciente ? res.status(200).json(paciente) : res.status(204).send()

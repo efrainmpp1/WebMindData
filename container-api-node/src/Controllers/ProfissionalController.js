@@ -1,12 +1,19 @@
 const Profissional = require("../Models/Profissional")
 const {v4} = require("uuid")
 const {hash , compare} = require("bcrypt")
+const Paciente = require("../Models/Paciente")
 
 class ProfissionalController {
 
   async readOne(req,res){
     const idProfissional = req.params.id
-    const profissional = await Profissional.findOne({where : {id : idProfissional }})
+    const profissional = await Profissional.findByPk(idProfissional, {
+      include: [{
+        model: Paciente,
+        as: 'pacientes',
+        through: {attributes: []}
+      }]
+    })
     //Retorna um statuscode para caso o profissional nao exista
     return profissional ? res.status(200).json(profissional) : res.status(204).send()
   }
