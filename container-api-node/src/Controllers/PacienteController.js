@@ -1,12 +1,23 @@
 const Paciente = require("../Models/Paciente")
 const {v4} = require("uuid")
 const {hash , compare} = require("bcrypt")
+const PacienteServices = require("../Services/PacienteServices")
+const Profissional = require("../Models/Profissional")
 
 class PacienteController {
   
   async readOne(req,res){
     const idPaciente = req.params.id
-    const paciente = await Paciente.findOne({where : {id : idPaciente }})
+    const paciente = await Paciente.findOne({
+      where : {id : idPaciente },
+      include : [
+        {
+          model: Profissional,
+          as : 'profissionais',
+          through : {attributes : []}
+        }
+      ]
+    })
     //Retorna um statuscode para caso o paciente nao exista
     return paciente ? res.status(200).json(paciente) : res.status(204).send()
   }
@@ -23,16 +34,17 @@ class PacienteController {
       ansiedade,
       depressao,
       familiar_ansiedade,
-      familiar_depressao
+      familiar_depressao,
     } = req.body
 
-    //gerar id e gerar senha criptografada(Futuramente estarão organizadas em PacientesServices)
+    //Verificando se os dados ja pertencem a algum paciente existente
+    const existe = await PacienteServices.pacienteExists(email , username , telefone)
+
+    //Gerando um uuid  e uma senha com encriptada
     const id = v4(); 
     const hashPassword = await hash(password,8);
-
-    // A tentativa de criar um paciente passará por verificações futuramente em PacientesServices
     // Melhorar futuramente o tratamento de erros
-    await Paciente.create({
+    const newPaciente = await Paciente.create({
       id,
       name,
       email,
@@ -46,23 +58,24 @@ class PacienteController {
       familiar_ansiedade,
       familiar_depressao,
     })
-    .then(()=> {
+    .then(() => {
       return res.status(201).json({
         erro: false,
         mensagem : "Usuario cadastrado com sucesso"
       })
     }).catch(() => {
       return res.status(400).json({
+        exists: existe,
         erro : true,
         mensagem : "Erro ao cadastrar o usuario"
       })
     })
   }
 
-  //Falta colocar uma confirmação da senha para realizar o update e delete com segurança
   async update(req, res) {
     const idPaciente  = req.params.id
-    await Paciente.update(req.body, {where: {id: idPaciente}})
+    const data = req.body
+    await Paciente.update(data, {where: {id: idPaciente}})
     .then(()=> {
       return res.status(201).json({
         erro: false,
@@ -78,11 +91,7 @@ class PacienteController {
 
   async delete(req , res) {
     const idPaciente = req.params.id
-    await Paciente.destroy({
-        where: {
-            id: idPaciente
-        }
-    })
+    await Paciente.destroy({ where: {id: idPaciente}})
     .then(()=> {
       return res.status(200).json({
         erro: false,
