@@ -1,12 +1,14 @@
+require('dotenv').config();
 const express = require("express")
 const routes = require("./routes")
-const PORT = 3333 //Futuramente será de uma variavel de ambiente 
+const {SERVER_PORT} = process.env
+require("./database/index")
 
 const app = express()
 
 app.use(express.json())
 app.use(routes)
 
-app.listen(PORT , () => {
+app.listen(SERVER_PORT , () => {
   console.log("Server is Runing")
 })

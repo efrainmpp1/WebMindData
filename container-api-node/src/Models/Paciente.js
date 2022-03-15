@@ -1,62 +1,35 @@
-const Sequelize = require("sequelize")
+const { Model , DataTypes } = require("sequelize")
 
-const db = require("../database/index")
-
-const Paciente = db.define('pacientes' , {
-  id: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true
-  },
-  name:{
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  email:{
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      isEmail: true
-    },
-    unique: true
-  },
-  username:{
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true
-  },
-  password:{
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  telefone:{
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
-  },
-  cep:{
-    type: Sequelize.STRING
-  },
-  data_nascimento:{
-    type: Sequelize.DATEONLY,
-    allowNull: false
-  },
-  ansiedade:{
-    type: Sequelize.BOOLEAN,
-    allowNull:false
-  },
-  depressao:{
-    type: Sequelize.BOOLEAN,
-    allowNull:false
-  },
-  familiar_ansiedade:{
-    type: Sequelize.BOOLEAN,
-    allowNull:false
-  },
-  familiar_depressao:{
-    type: Sequelize.BOOLEAN,
-    allowNull:false
+class Paciente extends Model {
+  static init(connection){
+    super.init({
+      id: {
+        type: DataTypes.STRING,
+        primaryKey : true
+      },
+      name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      username: DataTypes.STRING,
+      password: DataTypes.STRING,
+      telefone: DataTypes.STRING,
+      cep: DataTypes.STRING,
+      data_nascimento: DataTypes.DATEONLY,
+      ansiedade: DataTypes.BOOLEAN,
+      depressao: DataTypes.BOOLEAN,
+      familiar_ansiedade: DataTypes.BOOLEAN,
+      familiar_depressao: DataTypes.BOOLEAN
+    },{
+      sequelize: connection
+    })
   }
-})
+
+  static associate(models){
+    this.hasMany(models.Questionario , {
+      foreignKey: 'paciente_id',
+      as: 'questionarios'
+    })
+  }
+}
 
 module.exports = Paciente
+

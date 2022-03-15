@@ -2,34 +2,32 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('questionarios', { 
+    
+    await queryInterface.createTable('Questionarios', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false,
         autoIncrement: true,
+        allowNull: false
       },
-      id_paciente:{
+      paciente_id:{
         type: Sequelize.STRING,
         allowNull: false,
-        references:{  //  belongsTo pacientes 1:1
-          model: 'pacientes',
-          key: 'id'
-        }
+        references:{ model: 'Pacientes' , key: 'id'},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      situacao:{
-        type: Sequelize.INTEGER
-      },
+      situacao: Sequelize.INTEGER,
       // Timestamps
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE,
     });
-
+     
   },
-  
+
   async down (queryInterface, Sequelize) {
-  
-   await queryInterface.dropTable('questionarios');
-  
+
+    await queryInterface.dropTable('Questionarios');
+
   }
 };
