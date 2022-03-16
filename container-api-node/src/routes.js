@@ -2,6 +2,7 @@ const express = require("express")
 
 const PacienteControllers = require("./Controllers/PacienteControllers")
 const QuestionarioControllers = require("./Controllers/QuestionarioController")
+const ProfissionalControllers = require("./Controllers/ProfissionalControllers")
 
 const routes = express.Router()
 
@@ -18,5 +19,8 @@ routes.delete('/paciente/:id' , PacienteControllers.delete)
 //Paciente preenchendo um questionario
 routes.post('/paciente/:id/Questionario' , QuestionarioControllers.cadatrarQuestionario)
 routes.get('/paciente/:id/Questionario' , QuestionarioControllers.pacienteQuestionarios)
+
+//Rotas do CRUD simples de Profissionais
+routes.post('/profissional' , ProfissionalControllers.cadastrar)
 
 module.exports = routes
