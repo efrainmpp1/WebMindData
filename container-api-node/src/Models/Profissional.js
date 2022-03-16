@@ -1,6 +1,6 @@
 const { Model , DataTypes } = require("sequelize")
 
-class Paciente extends Model {
+class Profissional extends Model {
   static init(connection){
     super.init({
       id: {
@@ -14,27 +14,20 @@ class Paciente extends Model {
       telefone: DataTypes.STRING,
       cep: DataTypes.STRING,
       data_nascimento: DataTypes.DATEONLY,
-      ansiedade: DataTypes.BOOLEAN,
-      depressao: DataTypes.BOOLEAN,
-      familiar_ansiedade: DataTypes.BOOLEAN,
-      familiar_depressao: DataTypes.BOOLEAN
+      formacao_profissional: DataTypes.STRING,
     },{
       sequelize: connection
     })
   }
 
   static associate(models){
-    this.hasMany(models.Questionario , {
-      foreignKey: 'paciente_id',
-      as: 'questionarios'
-    })
-    this.belongsToMany(models.Profissional , {
-      foreignKey: 'paciente_id',
+    this.belongsToMany(models.Paciente , {
+      foreignKey: 'profissional_id',
       through: 'Clinicas',
-      as : 'profissionais'
+      as : 'pacientes'
     })
   }
 }
 
-module.exports = Paciente
+module.exports = Profissional
 
