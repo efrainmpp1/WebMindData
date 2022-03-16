@@ -17,6 +17,6 @@ routes.delete('/paciente/:id' , PacienteControllers.delete)
 
 //Paciente preenchendo um questionario
 routes.post('/paciente/:id/Questionario' , QuestionarioControllers.cadatrarQuestionario)
-routes.get('/paciente/:id/Questionario' , QuestionarioControllers.getQuestionarios)
+routes.get('/paciente/:id/Questionario' , QuestionarioControllers.pacienteQuestionarios)
 
 module.exports = routes

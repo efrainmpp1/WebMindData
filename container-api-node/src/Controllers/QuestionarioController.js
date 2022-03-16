@@ -19,20 +19,13 @@ module.exports = {
       paciente_id,
       situacao
     })
-    .then(()=>{
-      return res.status(201).json({
-        erro: false,
-        mensagem: "Questionario Salvo com sucesso",
-        questionario: questionario
-      })
-    }).catch(() => {
-      return res.status(400).json({
-        erro: true,
-        mensagem: "Não foi possivel cadastrar o questionario"
-      })
+    return res.status(201).json({
+      erro: false,
+      mensagem: "Questionario Salvo com sucesso",
+      questionario: questionario
     })
   },
-  async getQuestionarios(req,res){
+  async pacienteQuestionarios(req,res){
     const paciente_id = req.params.id
     // Verificar se o Paciente existe
     const paciente = await Paciente.findByPk(paciente_id , {
@@ -44,6 +37,6 @@ module.exports = {
         mensagem: "Paciente não encontrado"
       })
     }
-    return res.status(200).json(paciente)
+    return res.status(200).json(paciente.questionarios)
   }
 }
