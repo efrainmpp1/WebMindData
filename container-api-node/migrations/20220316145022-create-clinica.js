@@ -13,7 +13,7 @@ module.exports = {
       profissional_id:{
         type: Sequelize.STRING,
         allowNull: false,
-        references:{ model: 'Profissionais' , key: 'id'},
+        references:{ model: 'Profissionals' , key: 'id'},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
