@@ -41,5 +41,46 @@ module.exports = {
       })
     })
   },
+  async readOne(req,res){
+    const id_profissional = req.params.id
+    const profissional = await Profissional.findByPk(id_profissional)
+    //Retorna um statuscode para caso o profissional nao exista
+    return profissional ? res.status(200).json(profissional) : res.status(404).json({
+      erro: true,
+      mensagem: "Não foi possivel encontrar esse profissional"
+    })
+  },
+  //Falta corrigir erro que a senha perde a criptografia
+  async update(req,res){
+    const id_profissional = req.params.id
+    const data = req.body
+    await Profissional.update({where: {id: id_profissional}})
+    .then(()=> {
+      return res.status(201).json({
+        erro: false,
+        mensagem: "Profissional atualizado com sucesso"
+      })
+    }).catch(()=>{
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Não foi possivel atualizar o usuario"
+      })
+    })
+  },
+  async delete(req,res){
+    const id_profissional = req.params.id
+    await Paciente.destroy({where: {id : id_profissional}})
+    .then(()=> {
+      return res.status(200).json({
+        erro: false,
+        mensagem: "Profissional deletado com sucesso"
+      })
+    }).catch(()=>{
+      return res.status(201).json({
+        erro: true,
+        mensagem: "Não foi possivel deletar o profissional"
+      })
+    })
+  }
 
 }

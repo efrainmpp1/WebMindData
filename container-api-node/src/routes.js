@@ -16,11 +16,14 @@ routes.post('/paciente' , PacienteControllers.cadastrar)
 routes.put('/paciente/:id' , PacienteControllers.update)
 routes.delete('/paciente/:id' , PacienteControllers.delete)
 
-//Paciente preenchendo um questionario
+//Rotas para Paciente fazer CRUD com questionarios
 routes.post('/paciente/:id/Questionario' , QuestionarioControllers.cadatrarQuestionario)
 routes.get('/paciente/:id/Questionario' , QuestionarioControllers.pacienteQuestionarios)
 
 //Rotas do CRUD simples de Profissionais
+routes.get('/profissional/:id' , ProfissionalControllers.readOne)
 routes.post('/profissional' , ProfissionalControllers.cadastrar)
+routes.put('/profissional/:id' , ProfissionalControllers.update)
+routes.delete('/profissional/:id' , ProfissionalControllers.delete)
 
 module.exports = routes
