@@ -75,7 +75,7 @@ module.exports = {
   async update(req,res){
     const id_paciente = req.params.id
     const data = req.body
-    await Paciente.update({where: {id: id_paciente}})
+    await Paciente.update(data,{where: {id: id_paciente}})
     .then(()=> {
       return res.status(201).json({
         erro: false,
