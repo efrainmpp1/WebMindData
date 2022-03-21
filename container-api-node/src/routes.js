@@ -17,8 +17,11 @@ routes.put('/paciente/:id' , PacienteControllers.update)
 routes.delete('/paciente/:id' , PacienteControllers.delete)
 
 //Rotas para Paciente fazer CRUD com questionarios
+routes.get('/paciente/:id/Questionario' , QuestionarioControllers.allQuestionarios)
+routes.get('/paciente/:id/Questionario/:questionario_id' , QuestionarioControllers.readOne)
 routes.post('/paciente/:id/Questionario' , QuestionarioControllers.cadatrarQuestionario)
-routes.get('/paciente/:id/Questionario' , QuestionarioControllers.pacienteQuestionarios)
+routes.put('/paciente/:id/Questionario/:questionario_id' , QuestionarioControllers.update)
+routes.delete('/paciente/:id/Questionario/:questionario_id' , QuestionarioControllers.delete)
 
 //Rotas do CRUD simples de Profissionais
 routes.get('/profissional/:id' , ProfissionalControllers.readOne)
