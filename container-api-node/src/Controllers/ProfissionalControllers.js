@@ -1,4 +1,5 @@
 const Profissional = require("../Models/Profissional")
+const ProfissionalServices = require("../Services/ProfissionalServices")
 const {v4} = require("uuid")
 const {hash , compare} = require("bcrypt")
 
@@ -34,9 +35,15 @@ module.exports = {
         erro: false,
         mensagem : "Profissional cadastrado com sucesso"
       })
-    }).catch(() => {
-      return res.status(400).json({
+    }).catch(async () => {
+      const exist_username = await ProfissionalServices.usernameExists(username)
+      const exist_email = await ProfissionalServices.emailExists(email)
+      const exist_telefone = await ProfissionalServices.telefoneExists(telefone)
+      return res.status(400).json({ 
         erro : true,
+        exist_username,
+        exist_email,
+        exist_telefone,
         mensagem : "Erro ao cadastrar o Profissional"
       })
     })
@@ -81,6 +88,33 @@ module.exports = {
         mensagem: "Não foi possivel deletar o profissional"
       })
     })
+  },
+  async login(req,res){
+    const { username , password } = req.body
+    if(!username || !password){
+      return res.status(400).json({
+        erro: true,
+        mensagem: "usuario ou senha não podem estar vazios"
+      })
+    }
+    if(!ProfissionalServices.usernameExists(username)){
+      return res.status(404).json({
+        erro: true,
+        mensagem: "username ou senha incorretos"
+      })
+    }
+    const profissional = await Profissional.findOne({where: {username: username}})
+    if(await compare(password , profissional.password)){
+      return res.status(200).json({
+        erro: false,
+        mensagem: "Usuário Logado com sucesso"
+      })
+    }
+    else{
+      return res.status(404).json({
+        erro: false,
+        mensagem: "username ou senha incorretos"
+      })
+    }
   }
-
 }

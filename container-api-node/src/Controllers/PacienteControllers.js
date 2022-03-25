@@ -1,4 +1,5 @@
 const Paciente = require('../Models/Paciente')
+const PacienteServices = require("../Services/PacienteServices")
 const {v4} = require("uuid")
 const {hash , compare} = require("bcrypt")
 module.exports = {
@@ -39,9 +40,15 @@ module.exports = {
         erro: false,
         mensagem : "Usuario cadastrado com sucesso"
       })
-    }).catch(() => {
+    }).catch(async () => {
+      const exist_username = await PacienteServices.usernameExists(username)
+      const exist_email = await PacienteServices.emailExists(email)
+      const exist_telefone = await PacienteServices.telefoneExists(telefone)
       return res.status(400).json({
         erro : true,
+        exist_username,
+        exist_email,
+        exist_telefone,
         mensagem : "Erro ao cadastrar o usuario"
       })
     })
@@ -87,6 +94,34 @@ module.exports = {
         mensagem: "Não foi possivel atualizar o usuario"
       })
     })
+  },
+  async login(req,res){
+    const { username , password } = req.body
+    if(!username || !password){
+      return res.status(400).json({
+        erro: true,
+        mensagem: "usuario ou senha não podem estar vazios"
+      })
+    }
+    if(!PacienteServices.usernameExists(username)){
+      return res.status(404).json({
+        erro: true,
+        mensagem: "username ou senha incorretos"
+      })
+    }
+    const paciente = await Paciente.findOne({where: {username: username}})
+    if(await compare(password , paciente.password)){
+      return res.status(200).json({
+        erro: false,
+        mensagem: "Usuário Logado com sucesso"
+      })
+    }
+    else{
+      return res.status(404).json({
+        erro: false,
+        mensagem: "username ou senha incorretos"
+      })
+    }
   }
 
 }

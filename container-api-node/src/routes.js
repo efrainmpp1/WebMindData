@@ -29,4 +29,8 @@ routes.post('/profissional' , ProfissionalControllers.cadastrar)
 routes.put('/profissional/:id' , ProfissionalControllers.update)
 routes.delete('/profissional/:id' , ProfissionalControllers.delete)
 
+//Rotas de Login de Pacientes e Profissionais
+routes.post('/login/paciente' , PacienteControllers.login)
+routes.post('/login/profissional' , ProfissionalControllers.login)
+
 module.exports = routes
