@@ -1,8 +1,11 @@
 const express = require("express")
 
+//Chamando os Controllers da nossa Aplicação
 const PacienteControllers = require("./Controllers/PacienteControllers")
 const QuestionarioControllers = require("./Controllers/QuestionarioController")
 const ProfissionalControllers = require("./Controllers/ProfissionalControllers")
+
+const Authenticate =  require("./Middlewares/authenticate")
 
 const routes = express.Router()
 
@@ -11,7 +14,7 @@ routes.get('/' , (req,res) => {
 })
 
 //Rotas do CRUD simples de Pacientes
-routes.get('/paciente/:id' , PacienteControllers.readOne)
+routes.get('/paciente/:id', Authenticate.paciente , PacienteControllers.readOne)
 routes.post('/paciente' , PacienteControllers.cadastrar)
 routes.put('/paciente/:id' , PacienteControllers.update)
 routes.delete('/paciente/:id' , PacienteControllers.delete)
