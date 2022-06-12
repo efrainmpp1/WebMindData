@@ -1,6 +1,6 @@
 const Paciente = require('../Models/Paciente')
 const PacienteServices = require("../Services/PacienteServices")
-const SECRET_KEY = process.env.SECRET_KEY
+const SECRET_KEY_PACIENTE = process.env.SECRET_KEY_PACIENTE
 const jwt = require('jsonwebtoken')
 const {v4} = require("uuid")
 const {hash , compare} = require("bcrypt")
@@ -114,7 +114,7 @@ module.exports = {
     const paciente = await Paciente.findOne({where: {username: username}})
     if(await compare(password , paciente.password)){
       //Criando nosso token de acesso do usuario (por enquanto expira em 5 min)
-      const token = jwt.sign({id_paciente : paciente.id} , SECRET_KEY , {expiresIn: 300}); 
+      const token = jwt.sign({id_paciente : paciente.id} , SECRET_KEY_PACIENTE , {expiresIn: 300}); 
       return res.status(200).json({
         erro: false,
         mensagem: "Usuário Logado com sucesso",

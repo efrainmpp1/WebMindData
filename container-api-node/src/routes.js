@@ -27,7 +27,7 @@ routes.put('/paciente/:id/Questionario/:questionario_id' , QuestionarioControlle
 routes.delete('/paciente/:id/Questionario/:questionario_id' , QuestionarioControllers.delete)
 
 //Rotas do CRUD simples de Profissionais
-routes.get('/profissional/:id' , ProfissionalControllers.readOne)
+routes.get('/profissional/:id',Authenticate.profissional , ProfissionalControllers.readOne)
 routes.post('/profissional' , ProfissionalControllers.cadastrar)
 routes.put('/profissional/:id' , ProfissionalControllers.update)
 routes.delete('/profissional/:id' , ProfissionalControllers.delete)
