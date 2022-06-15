@@ -29,9 +29,9 @@ module.exports = {
     const paciente_id = req.params.id
     // Verificar se o Paciente existe
     const paciente = await Paciente.findByPk(paciente_id , {
-      include: { association: 'questionarios'},
-      order: 'createdAt'
+      include: { association: 'questionarios', order: 'createdAt'},
     })
+    
     if(!paciente){
       return res.status(400).json({
         erro: true,
