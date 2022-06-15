@@ -50,6 +50,10 @@ module.exports = {
       })
     })
   },
+  async readAll(req,res){
+    const profissionais = await Profissional.findAll()
+    return res.status(200).json(profissionais)
+  },
   async readOne(req,res){
     const id_profissional = req.params.id
     const profissional = await Profissional.findByPk(id_profissional)

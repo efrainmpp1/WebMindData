@@ -56,6 +56,10 @@ module.exports = {
     })
 
   },
+  async readAll(req,res){
+    const pacientes = await Paciente.findAll()
+    return res.status(200).json(pacientes)
+  },
   async readOne(req,res){
     const id_paciente = req.params.id
     const paciente = await Paciente.findByPk(id_paciente)
