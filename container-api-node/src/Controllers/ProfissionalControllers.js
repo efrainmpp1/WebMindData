@@ -63,6 +63,15 @@ module.exports = {
       mensagem: "Não foi possivel encontrar esse profissional"
     })
   },
+  async readAllPacientes(req,res){
+    const id_profissional = req.params.id
+    const profissional = await Profissional.findByPk(id_profissional,{include:{association:'pacientes'}})
+    //Retorna um statuscode para caso o profissional nao exista
+    return profissional ? res.status(200).json(profissional.pacientes) : res.status(404).json({
+      erro: true,
+      mensagem: "Não foi possivel encontrar esse profissional"
+    })
+  },
   //Falta corrigir erro que a senha perde a criptografia
   async update(req,res){
     const id_profissional = req.params.id

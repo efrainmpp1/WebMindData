@@ -35,6 +35,9 @@ routes.post('/profissional' , ProfissionalControllers.cadastrar)
 routes.put('/profissional/:id' ,Authenticate.profissional,ProfissionalControllers.update)
 routes.delete('/profissional/:id' ,Authenticate.profissional,ProfissionalControllers.delete)
 
+//Rotas de Profissionais interagirem com Pacientes
+routes.get('/profissional/:id/paciente',ProfissionalControllers.readAllPacientes)
+
 //Rotas de Login de Pacientes e Profissionais
 routes.post('/login/paciente' , PacienteControllers.login)
 routes.post('/login/profissional' , ProfissionalControllers.login)
