@@ -4,6 +4,7 @@ const express = require("express")
 const PacienteControllers = require("./Controllers/PacienteControllers")
 const QuestionarioControllers = require("./Controllers/QuestionarioController")
 const ProfissionalControllers = require("./Controllers/ProfissionalControllers")
+const PacienteProfissional = require("./Controllers/PacienteProfissional")
 
 const Authenticate =  require("./Middlewares/authenticate") // Classe de Autenticação
 
@@ -37,6 +38,9 @@ routes.delete('/profissional/:id' ,Authenticate.profissional,ProfissionalControl
 
 //Rotas de Profissionais interagirem com Pacientes
 routes.get('/profissional/:id/paciente',ProfissionalControllers.readAllPacientes)
+
+//Rota de Associar Paciente com Profissional
+routes.post('/PacienteProfissional' , PacienteProfissional.associar)
 
 //Rotas de Login de Pacientes e Profissionais
 routes.post('/login/paciente' , PacienteControllers.login)
