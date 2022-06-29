@@ -20,7 +20,7 @@ routes.get('/profissional',ProfissionalControllers.readAll)
 //Rotas do CRUD simples de Pacientes
 routes.get('/paciente/:id', Authenticate.paciente , PacienteControllers.readOne)
 routes.post('/paciente' , PacienteControllers.cadastrar)
-routes.put('/paciente/:id' ,Authenticate.paciente ,PacienteControllers.update)
+routes.put('/paciente' ,Authenticate.paciente ,PacienteControllers.update)
 routes.delete('/paciente/:id' , Authenticate.paciente ,PacienteControllers.delete)
 
 //Rotas para Paciente fazer CRUD com questionarios
@@ -33,7 +33,7 @@ routes.delete('/paciente/:id/Questionario/:questionario_id' ,Authenticate.pacien
 //Rotas do CRUD simples de Profissionais
 routes.get('/profissional/:id',Authenticate.profissional , ProfissionalControllers.readOne)
 routes.post('/profissional' , ProfissionalControllers.cadastrar)
-routes.put('/profissional/:id' ,Authenticate.profissional,ProfissionalControllers.update)
+routes.put('/profissional' ,Authenticate.profissional,ProfissionalControllers.update)
 routes.delete('/profissional/:id' ,Authenticate.profissional,ProfissionalControllers.delete)
 
 //Rotas de Profissionais interagirem com Pacientes

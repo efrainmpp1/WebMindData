@@ -7,31 +7,13 @@ const {hash , compare} = require("bcrypt")
 
 module.exports = {
   async cadastrar(req,res){
-    const {
-      name,
-      email,
-      username,
-      password,
-      telefone,
-      cep,
-      data_nascimento,
-      formacao_profissional
-    } = req.body
+    const {password , ...data} = req.body
+
     //Gerando um uuid  e uma senha com encriptada
     const id = v4(); 
     const hashPassword = await hash(password,8);
     
-    const newProfissional = await Profissional.create({
-      id,
-      name,
-      email,
-      username,
-      password : hashPassword,
-      telefone,
-      cep,
-      data_nascimento,
-      formacao_profissional
-    })
+    await Profissional.create({id,password:hashPassword,...data})
     .then(() => {
       return res.status(201).json({
         erro: false,
@@ -74,9 +56,8 @@ module.exports = {
   },
   //Falta corrigir erro que a senha perde a criptografia
   async update(req,res){
-    const id_profissional = req.params.id
-    const data = req.body
-    await Profissional.update({where: {id: id_profissional}})
+    const {id , ...data} = req.body
+    await Profissional.update(data , {where: {id}})
     .then(()=> {
       return res.status(201).json({
         erro: false,
