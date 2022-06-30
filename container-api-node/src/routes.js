@@ -38,9 +38,9 @@ routes.delete('/profissional/:id' ,Authenticate.profissional,ProfissionalControl
 
 //Rotas de Profissionais interagirem com Pacientes
 routes.get('/profissional/:id/paciente',ProfissionalControllers.readAllPacientes)
-
-//Rota de Associar Paciente com Profissional
+routes.get('/paciente/:id/profissional', PacienteControllers.readAllProfissionais)
 routes.post('/PacienteProfissional' , PacienteProfissional.associar)
+routes.delete('/PacienteProfissional',PacienteProfissional.delete)
 
 //Rotas de Login de Pacientes e Profissionais
 routes.post('/login/paciente' , PacienteControllers.login)

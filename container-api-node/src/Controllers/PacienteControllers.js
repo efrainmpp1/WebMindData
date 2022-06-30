@@ -40,6 +40,15 @@ module.exports = {
       mensagem: "Não foi possivel encontrar esse usuario"
     })
   },
+  async readAllProfissionais(req,res){
+    const id_paciente = req.params.id
+    const paciente = await Paciente.findByPk(id_paciente,{include:{association:'profissionais'}})
+    //Retorna um statuscode para caso o paciente nao exista
+    return paciente ? res.status(200).json(paciente.profissionais) : res.status(404).json({
+      erro: true,
+      mensagem: "Não foi possivel encontrar esse Paciente"
+    })
+  },
   async delete(req,res){
     const id_paciente = req.params.id
     await Paciente.destroy({where: {id : id_paciente}})

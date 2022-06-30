@@ -40,11 +40,28 @@ module.exports = {
     .then(() => {
       return res.status(200).json({
         erro: false,
-        mensagem: "Profissional Adicionado com Sucesso em sua Lista"
+        mensagem: "Associação realizada com sucesso"
       })
     })
     .catch((err)=>{
       return res.status(400).json({
+        erro: true,
+        mensagem: "Não foi possivel realizar a operação"
+      })
+    })
+  },
+  async delete(req,res){
+    const {paciente_id,profissional_id} = req.body
+    //Fazer a checagem se a relacao ja existe
+    association_exist = await PacienteProfissional.destroy({where : {paciente_id , profissional_id}})
+    .then(() =>{
+      return res.status(200).json({
+        erro: false,
+        mensagem: "União deletada com sucesso"
+      })
+    })
+    .catch(()=>{
+      return res.status(201).json({
         erro: true,
         mensagem: "Não foi possivel realizar a operação"
       })
