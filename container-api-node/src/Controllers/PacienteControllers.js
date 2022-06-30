@@ -18,14 +18,10 @@ module.exports = {
         mensagem : "Paciente cadastrado com sucesso"
       })
     }).catch(async () => {
-      const exist_username = await PacienteServices.usernameExists(data.username)
-      const exist_email = await PacienteServices.emailExists(data.email)
-      const exist_telefone = await PacienteServices.telefoneExists(data.telefone)
+      const exist = await PacienteServices.pacienteExists(data.username,data.email,data.telefone)
       return res.status(400).json({
         erro : true,
-        exist_username,
-        exist_email,
-        exist_telefone,
+        exist,
         mensagem : "Erro ao cadastrar o usuario"
       })
     })

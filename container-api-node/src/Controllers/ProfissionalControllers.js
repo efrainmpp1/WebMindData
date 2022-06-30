@@ -20,14 +20,10 @@ module.exports = {
         mensagem : "Profissional cadastrado com sucesso"
       })
     }).catch(async () => {
-      const exist_username = await ProfissionalServices.usernameExists(username)
-      const exist_email = await ProfissionalServices.emailExists(email)
-      const exist_telefone = await ProfissionalServices.telefoneExists(telefone)
+      const exist = await ProfissionalServices.profissionalExists(data.username,data.email,data.telefone)
       return res.status(400).json({ 
         erro : true,
-        exist_username,
-        exist_email,
-        exist_telefone,
+        exist,
         mensagem : "Erro ao cadastrar o Profissional"
       })
     })

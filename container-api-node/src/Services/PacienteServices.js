@@ -4,19 +4,15 @@ const {hash , compare} = require("bcrypt")
 
 class PacienteServices {
 
-  async usernameExists(username){
-    const existe = await Paciente.findOne({where: {username: username}}) ? true : false
-    return existe
-  }
-
-  async emailExists(email){
-    const existe = await Paciente.findOne({where: {email: email}}) ? true : false
-    return existe
-  }
-
-  async telefoneExists(telefone){
-    const existe = await Paciente.findOne({where: {telefone: telefone}}) ? true : false
-    return existe
+  async pacienteExists(username , email , telefone){
+    const usernameExists = await Paciente.findOne({where:{username}}) ? true : false
+    const emailExists = await Paciente.findOne({where:{email}}) ? true : false
+    const telefoneExists = await Paciente.findOne({where:{telefone}}) ? true : false
+    return {
+      username: usernameExists,
+      email: emailExists,
+      telefone: telefoneExists
+    }
   }
 
 }
