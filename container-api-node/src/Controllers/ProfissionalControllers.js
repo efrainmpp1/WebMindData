@@ -52,16 +52,38 @@ module.exports = {
   },
   //Falta corrigir erro que a senha perde a criptografia
   async update(req,res){
-    const {id , ...data} = req.body
-    await Profissional.update(data , {where: {id}})
+    const {id ,...data} = req.body
+
+    const profissional = await Profissional.findByPk(id)
+
+    if(!profissional){
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Profissional não encontrado"
+      })
+    }
+        
+    const updated = {
+      name : data.name ? data.name : profissional.name,
+      username : data.username ? data.username : profissional.username,
+      password : data.password ? await hash(data.password,8) : profissional.password,
+      telefone : data.telefone ? data.telefone : profissional.telefone,
+      cep : data.cep ? data.cep : profissional.cep,
+      data_nascimento : data.data_nascimento ? data.data_nascimento : profissional.data_nascimento,
+      formacao_profissional : data.formacao_profissional ? data.formacao_profissional : profissional.formacao_profissional,
+    }  
+    
+    await Profissional.update( updated , {where: {id}})
     .then(()=> {
       return res.status(201).json({
         erro: false,
         mensagem: "Profissional atualizado com sucesso"
       })
-    }).catch(()=>{
+    }).catch(async () => {
+      const exist = await ProfissionalServices.profissionalExists(data.username,data.email,data.telefone)
       return res.status(400).json({
         erro: true,
+        exist,
         mensagem: "Não foi possivel atualizar o usuario"
       })
     })

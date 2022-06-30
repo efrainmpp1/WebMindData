@@ -15,6 +15,10 @@ class PacienteServices {
     }
   }
 
+  async usernameExists(username){
+    return await Paciente.findOne({where:{username}}) ? true : false
+  }
+
 }
 
 module.exports = new PacienteServices

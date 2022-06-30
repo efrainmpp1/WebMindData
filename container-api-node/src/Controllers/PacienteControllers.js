@@ -58,15 +58,40 @@ module.exports = {
   //Falta corrigir erro que a senha perde a criptografia
   async update(req,res){
     const {id ,...data} = req.body
-    await Paciente.update(data,{where: {id}})
+
+    const paciente = await Paciente.findByPk(id)
+
+    if(!paciente){
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Paciente não encontrado"
+      })
+    }
+    
+    const updated = {
+      name : data.name ? data.name : paciente.name,
+      username : data.username ? data.username : paciente.username,
+      password : data.password ? await hash(data.password,8) : paciente.password,
+      telefone : data.telefone ? data.telefone : paciente.telefone,
+      cep : data.cep ? data.cep : paciente.cep,
+      data_nascimento : data.data_nascimento ? data.data_nascimento : paciente.data_nascimento,
+      ansiedade : data.ansiedade ? data.ansiedade : paciente.ansiedade,
+      depressao : data.depressao ? data.depressao : paciente.depressao,
+      familiar_ansiedade : data.familiar_ansiedade ? data.familiar_ansiedade : paciente.familiar_ansiedade,
+      familiar_depressao : data.familiar_depressao ? data.familiar_depressao : paciente.familiar_depressao,
+    }
+
+    await Paciente.update(updated,{where: {id}})
     .then(()=> {
       return res.status(201).json({
         erro: false,
         mensagem: "Usuário atualizado com sucesso"
       })
-    }).catch(()=>{
+    }).catch(async ()=>{
+      const exist = await ProfissionalServices.profissionalExists(data.username,data.email,data.telefone)
       return res.status(400).json({
         erro: true,
+        exist,
         mensagem: "Não foi possivel atualizar o usuario"
       })
     })

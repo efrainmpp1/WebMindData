@@ -13,4 +13,7 @@ module.exports = {
       telefone: telefoneExists
     }
   },
+  async usernameExists(username){
+    return await Profissional.findOne({where:{username}}) ? true : false
+  }
 }
